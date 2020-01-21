@@ -112,13 +112,16 @@ colnames(feature_selec) <- sub("Acc", "Acceleration",
 colnames(feature_selec) <- gsub("\\-", "_",
                                x = colnames(feature_selec))
 colnames(feature_selec) <- sub("timeype", "type", x = colnames(feature_selec))
+colnames(feature_selec) <- sub("BodyBody", "Body", x = colnames(feature_selec))
 
 
 
 # 5) From the data set in step 4, creates a second, independent tidy data set -----
 ## with the average of each variable for each activity and each subject. 
 
-feature_means <- feature_selec %>% group_by(activity, subject) %>%
+feature_means <- feature_selec %>% 
+      select(-type) %>% 
+      group_by(activity, subject) %>%
       summarise_all(list(mn = mean))
 
 write.table(feature_means, "course3/final_project/course3_datascience/dataset.txt", row.names = FALSE)
